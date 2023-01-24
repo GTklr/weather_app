@@ -26,9 +26,6 @@ time.setAttribute ("src", timeSrc)
 
 
 
-
-
-
 const updateCity = async (city) => {
 
     const cityDets = await getCity(city);
@@ -43,10 +40,23 @@ cityForm.addEventListener("submit", e => {
     const city = cityForm.city.value.trim()
     cityForm.reset
 
-    card.classList.remove('d-none')
+    //remove d-non class
+    if(card.classList.contains('d-none')){
+        card.classList.remove ('d-none')
+    }
 
 
     updateCity(city)
     .then(data => updateUI(data))
     .catch(err => console.log(err))
+
+    //add to localStorage
+    localStorage.setItem('city', city)
 })
+
+if(localStorage.getItem('city')) {
+
+    updateCity(localStorage.getItem('city'))
+    .then(data => updateUI(data))
+    .catch(err => console.log(err))
+}
